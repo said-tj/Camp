@@ -21,3 +21,7 @@ ENV/
 *.csv
 *.json
 !config.json # Ejemplo: ignorar todos los JSON excepto uno de config específico
+
+# R
+.Rhistory
+**/.Rhistory
