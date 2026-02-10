@@ -1,3 +1,7 @@
+# ============================================================
+# CÓDIGO PARA GRÁFICA DE VELOCIDAD
+# ============================================================
+
 # Cargar librerías necesarias
 library(tidyverse)
 library(rstatix)
@@ -18,10 +22,10 @@ print(unique(datos_filtrados$Condicion))
 # PASO 1: PRUEBAS ESTADÍSTICAS - ANOVA y Post-hoc Tukey
 # ============================================================
 
-# Realizar ANOVA para cada umbral
+# Realizar ANOVA para cada umbral (usando Velocidad)
 resultados_anova <- datos_filtrados %>%
   group_by(Umbrales_analizados) %>%
-  anova_test(Duracion ~ Condicion)
+  anova_test(Velocidad ~ Condicion)
 
 print("Resultados ANOVA:")
 print(resultados_anova)
@@ -29,14 +33,14 @@ print(resultados_anova)
 # Post-hoc Tukey para comparaciones múltiples
 resultados_tukey <- datos_filtrados %>%
   group_by(Umbrales_analizados) %>%
-  tukey_hsd(Duracion ~ Condicion)
+  tukey_hsd(Velocidad ~ Condicion)
 
 print("\nResultados Tukey HSD (comparaciones múltiples):")
 print(resultados_tukey)
 
 # Guardar resultados
-write.csv(resultados_anova, "resultados_anova.csv", row.names = FALSE)
-write.csv(resultados_tukey, "resultados_tukey.csv", row.names = FALSE)
+write.csv(resultados_anova, "resultados_anova_velocidad.csv", row.names = FALSE)
+write.csv(resultados_tukey, "resultados_tukey_velocidad.csv", row.names = FALSE)
 
 # ============================================================
 # PASO 2: PREPARAR DATOS PARA LA GRÁFICA
@@ -46,8 +50,8 @@ write.csv(resultados_tukey, "resultados_tukey.csv", row.names = FALSE)
 datos_resumen <- datos_filtrados %>%
   group_by(Condicion, Umbrales_analizados) %>%
   summarise(
-    media = mean(Duracion, na.rm = TRUE),
-    se = sd(Duracion, na.rm = TRUE) / sqrt(n()),
+    media = mean(Velocidad, na.rm = TRUE),
+    se = sd(Velocidad, na.rm = TRUE) / sqrt(n()),
     n = n(),
     .groups = 'drop'
   )
@@ -81,7 +85,7 @@ p <- ggplot(datos_resumen, aes(x = Umbrales_analizados, y = media,
   
   labs(
     x = "Threshold",
-    y = "Duration (ms)",
+    y = "Conduction velocity (m/s)",
     shape = ""  # Título vacío para la leyenda
   ) +
   theme_classic(base_size = 16) +
@@ -96,7 +100,7 @@ p <- ggplot(datos_resumen, aes(x = Umbrales_analizados, y = media,
     axis.ticks.length = unit(0.25, "cm"),
     
     # Leyenda profesional
-    legend.position = c(0.85, 0.15),  # Posición dentro de la gráfica (abajo derecha)
+    legend.position = c(0.85, 0.15),  # Posición arriba izquierda
     legend.background = element_rect(fill = "white", color = "black", linewidth = 0.8),
     legend.title = element_text(size = 14, face = "bold"),
     legend.text = element_text(size = 13, face = "plain"),
@@ -112,8 +116,8 @@ p <- ggplot(datos_resumen, aes(x = Umbrales_analizados, y = media,
     plot.margin = margin(t = 20, r = 20, b = 20, l = 20)
   ) +
   scale_y_continuous(
-    limits = c(-1, 2), 
-    breaks = seq(-1, 2, 1),
+    limits = c(-1, 4),  # CORREGIDO: Rango ajustado para Velocidad (1.5 - 3.75)
+    breaks = seq(-1, 4, 1),
     expand = expansion(mult = c(0.02, 0.05))
   ) +
   scale_x_discrete(labels = c("X1" = "1", "X3" = "3", "X5" = "5", "X6" = "6")) +
@@ -139,14 +143,14 @@ add_significance_bar <- function(plot, x_pos, y_pos, width, label) {
              linewidth = 1.5, color = "black") +
     annotate("segment",
              x = x_pos - width/2, xend = x_pos - width/2,
-             y = y_pos - 0.04, yend = y_pos,
+             y = y_pos - 0.06, yend = y_pos,
              linewidth = 1.5, color = "black") +
     annotate("segment",
              x = x_pos + width/2, xend = x_pos + width/2,
-             y = y_pos - 0.04, yend = y_pos,
+             y = y_pos - 0.06, yend = y_pos,
              linewidth = 1.5, color = "black") +
     annotate("text",
-             x = x_pos, y = y_pos + 0.1,
+             x = x_pos, y = y_pos + 0.15,
              label = label, size = 7, fontface = "bold")
 }
 
@@ -175,7 +179,7 @@ for(umbral in c("X1", "X3", "X5", "X6")) {
       pull(max_y)
     
     # Definir alturas base para las barras con más separación
-    alturas <- c(altura_datos + 0.3, altura_datos + 0.55, altura_datos + 0.8)
+    alturas <- c(altura_datos + 0.4, altura_datos + 0.75, altura_datos + 1.1)
     
     # Añadir cada comparación
     for(i in 1:min(nrow(comparaciones_umbral), 3)) {
@@ -208,12 +212,12 @@ for(umbral in c("X1", "X3", "X5", "X6")) {
 # ============================================================
 
 # Guardar la gráfica en alta resolución
-ggsave("grafica_duracion_final.png", plot = p, 
+ggsave("grafica_velocidad.png", plot = p, 
        width = 25, height = 25, dpi = 600, bg = "white")
 
 # También guardar en formato PDF para publicaciones
-ggsave("grafica_duracion_final.pdf", plot = p, 
-       width = 6, height = 6, device = "pdf")
+ggsave("grafica_velocidad.pdf", plot = p, 
+       width = 25, height = 25, device = "pdf")
 
 # Mostrar la gráfica
 print(p)
@@ -235,4 +239,4 @@ print("\nTabla resumen (Media ± SE):")
 print(tabla_resumen)
 
 # Guardar tabla resumen
-write.csv(tabla_resumen, "tabla_resumen_duracion.csv", row.names = FALSE)
+write.csv(tabla_resumen, "tabla_resumen_velocidad.csv", row.names = FALSE)
