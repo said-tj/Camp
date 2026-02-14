@@ -12,9 +12,9 @@ promedio_general <- function(df) {
 
 # Cálculo principal
 datos <- list(
-  r1 = read.csv("h_551_r_1_proximal.csv"),
-  r2 = read.csv("h_551_r_2_proximal.csv"),
-  r3 = read.csv("h_551_r_3_proximal.csv")
+  r1 = read.csv("h_564_r_1_distal.csv"),
+  r2 = read.csv("h_564_r_2_distal.csv"),
+  r3 = read.csv("h_564_r_3_distal.csv")
 )
 
 promedios <- sapply(datos, promedio_general)

@@ -1,0 +1,9 @@
+INSERT INTO h_563_r_1 (id, distal, medial, proximal) VALUES (563, 7.074409, 6.188371, 10.91589);
+INSERT INTO h_563_r_2 (id, distal, medial, proximal) VALUES (563, 3.528152, 5.098864, 3.208242);
+INSERT INTO h_563_r_3 (id, distal, medial, proximal) VALUES (563, 7.502856, 6.630015, 3.355636);
+INSERT INTO h_564_r_1 (id, distal, medial, proximal) VALUES (564, 0.9425758, 0.6892424, 6.632318);
+INSERT INTO h_564_r_2 (id, distal, medial, proximal) VALUES (564, 0.864947, 0.8502803, 3.200697);
+INSERT INTO h_564_r_3 (id, distal, medial, proximal) VALUES (564, 7.823462, 0.8843258, 0.8514621);
+INSERT INTO h_573_r_1 (id, distal, medial, proximal) VALUES (573, 1.898356, 1.159212, 1.954545);
+INSERT INTO h_573_r_2 (id, distal, medial, proximal) VALUES (573, 1.620818, 1.819144, 1.040879);
+INSERT INTO h_573_r_3 (id, distal, medial, proximal) VALUES (573, 1.776765, 1.248636, 0.7305985);
