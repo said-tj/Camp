@@ -118,10 +118,11 @@ figura_1 <- grid.arrange(
   panel_A, panel_B,
   ncol = 1,
   top = grid::textGrob(
-    "Figura 1. Densidad espectral de amplitud del EEU por región uretral y método de análisis",
+    "Densidad espectral de amplitud del EEU por región uretral y método de análisis",
     gp = grid::gpar(fontsize = 11, fontface = "bold")
   )
 )
+
 
 # Guardar en alta resolución para tesis
 ggsave(

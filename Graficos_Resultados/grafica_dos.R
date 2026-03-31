@@ -129,9 +129,17 @@ figura_2 <- ggplot(datos_correlacion,
   
   # Ejes
   labs(
-    x = expression("Método Clásico (PolyVIEW) — V"["pk"]*"/√Hz"),
-    y = expression("Método Alternativo (R) — V"["pk"]*"/√Hz")
+    x = expression("Método Clásico (PolyVIEW) — Vpk/√Hz"),
+    y = expression("Método Alternativo (R) — Vpk/√Hz")
   ) +
+  
+  
+  # Ejes
+  #labs(
+   # x = expression("Método Clásico (PolyVIEW) — V"["pk"]*"/√Hz"),
+  #  y = expression("Método Alternativo (R) — V"["pk"]*"/√Hz")
+  #) +
+  
   
   # Tema
   theme_classic() +

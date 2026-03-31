@@ -1,3 +1,0 @@
-Distal, Medial, Proximal
-
-Grafica de barra con medias
